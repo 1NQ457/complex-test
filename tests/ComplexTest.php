@@ -9,86 +9,85 @@ class ComplexTest extends TestCase
 {
     public function testStructure(): void
     {
-        $complex = new Complex('2 + 5i');
+        $complex = new Complex(2, 5);
         $this->assertEquals(2, $complex->getReal());
         $this->assertEquals(5, $complex->getImage());
         $complex->setReal(5);
         $complex->setImage(2);
         $this->assertEquals(5, $complex->getReal());
         $this->assertEquals(2, $complex->getImage());
-        $this->expectException(\Exception::class);
-        $complex = new Complex('Invalid Data');
+        $this->assertEquals('5 + 2i', strval($complex));
     }
 
     public function addProvider(): array
     {
         return [
-            ['2 + 5i', '3 + 3i', '5 + 8i'],
-            ['-2 + 5i', new complex('3 + 3i'), '1 + 8i'],
+            [new Complex(2, 5), new Complex(3, 3), new Complex(5, 8)],
+            [new Complex(-2, 5), new complex(3, 3), new Complex(1, 8)],
+            [new Complex(-2, 5), new complex(-3, 3), new Complex(-5, 8)],
         ];
     }
 
     /**
      * @dataProvider addProvider
      */
-    public function testAdd(string $num1, mixed $num2, string $expectedResult): void
+    public function testAdd(Complex $num1, Complex $num2, Complex $expectedResult): void
     {
-        $complex = new Complex($num1);
-        $actualResult = $complex->add($num2);
-        $this->assertEquals($expectedResult, strval($actualResult));
+        $actualResult = $num1->add($num2);
+        $this->assertEquals($expectedResult, $actualResult);
     }
 
     public function subProvider(): array
     {
         return [
-            ['2 + 5i', '3 + 3i', '-1 + 2i'],
-            ['-2 + 5i', new complex('3 + 3i'), '-5 + 2i'],
+            [new Complex(2, 5), new Complex(3, 3), new Complex(-1, 2)],
+            [new Complex(-2, 5), new complex(3, 3), new Complex(-5, 2)],
+            [new Complex(-2, 5), new complex(-3, 3), new Complex(1, 2)]
         ];
     }
 
     /**
      * @dataProvider subProvider
      */
-    public function testSub(string $num1, mixed $num2, string $expectedResult): void
+    public function testSub(Complex $num1, Complex $num2, Complex $expectedResult): void
     {
-        $complex = new Complex($num1);
-        $actualResult = $complex->sub($num2);
-        $this->assertEquals($expectedResult, strval($actualResult));
+        $actualResult = $num1->sub($num2);
+        $this->assertEquals($expectedResult, $actualResult);
     }
 
     public function mulProvider(): array
     {
         return [
-            ['2 + 5i', '3 + 3i', '-9 + 21i'],
-            ['-2 + 5i', new complex('3 + 3i'), '-21 + 9i'],
+            [new Complex(2, 5), new Complex(3, 3), new Complex(-9, 21)],
+            [new Complex(-2, 5), new complex(3, 3), new Complex(-21, 9)],
+            [new Complex(-2, 5), new complex(-3, 3), new Complex(-9, -21)]
         ];
     }
 
     /**
      * @dataProvider mulProvider
      */
-    public function testMul(string $num1, mixed $num2, string $expectedResult): void
+    public function testMul(Complex $num1, Complex $num2, Complex $expectedResult): void
     {
-        $complex = new Complex($num1);
-        $actualResult = $complex->mul($num2);
-        $this->assertEquals($expectedResult, strval($actualResult));
+        $actualResult = $num1->mul($num2);
+        $this->assertEquals($expectedResult, $actualResult);
     }
 
     public function divProvider(): array
     {
         return [
-            ['4 + 8i', '4 + 4i', '1.5 + 0.5i'],
-            ['-4 + 8i', new complex('4 + 4i'), '0.5 + 1.5i'],
+            [new Complex(4, 8), new Complex(4, 4), new Complex(1.5, 0.5)],
+            [new Complex(-4, 8), new complex(4, 4), new Complex(0.5, 1.5)],
+            [new Complex(-4, 8), new complex(-4, 4), new Complex(1.5, 0.5)]
         ];
     }
 
     /**
      * @dataProvider divProvider
      */
-    public function testDiv(string $num1, mixed $num2, string $expectedResult): void
+    public function testDiv(Complex $num1, Complex $num2, Complex $expectedResult): void
     {
-        $complex = new Complex($num1);
-        $actualResult = $complex->div($num2);
-        $this->assertEquals($expectedResult, strval($actualResult));
+        $actualResult = $num1->div($num2);
+        $this->assertEquals($expectedResult, $actualResult);
     }
 }
