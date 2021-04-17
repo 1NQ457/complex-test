@@ -13,12 +13,12 @@ class Complex
         $this->image = $image;
     }
 
-    public function setReal(mixed $real): void
+    public function setReal(int $real): void
     {
         $this->real = $real;
     }
 
-    public function setImage(mixed $image): void
+    public function setImage(int $image): void
     {
         $this->image = $image;
     }
